@@ -28,6 +28,8 @@ public class AppConstants {
 	public static final String ACC_CREATE_SUCC_MESSG = "Your Account Has Been Created!";
 
 	
+	public static final String REVIEW_SUCCESS_MSG = "Thank you for your review. It has been submitted to the webmaster for approval.";
+	
 	
 	//**************************sheet names ******************//
 	public static final String REGISTER_SHEET_NAME = "register";

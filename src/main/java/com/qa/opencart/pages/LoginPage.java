@@ -1,10 +1,12 @@
 package com.qa.opencart.pages;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import com.qa.opencart.constants.AppConstants;
+import com.qa.opencart.factory.DriverFactory;
 import com.qa.opencart.utils.ElementUtil;
 
 import io.qameta.allure.Step;
@@ -21,6 +23,9 @@ public class LoginPage {
 	private By logoImage = By.cssSelector("img[title='naveenopencart']");
 	private By forgotPwdLink = By.linkText("Forgotten Password");
 	private By registerLink = By.linkText("Register");
+	
+	private static final Logger LOG = Logger.getLogger(LoginPage.class);
+
 
 	// 2. page const....
 	public LoginPage(WebDriver driver) {
@@ -34,6 +39,7 @@ public class LoginPage {
 	public String getLoginPageTitle() {
 		String title = eleUtil.waitForTitleIs(AppConstants.DEFAULT_TIME_OUT, AppConstants.LOGIN_PAGE_TITLE);
 		System.out.println("login page title : " + title);
+		LOG.info("login page title: " + title);
 		return title;
 	}
 

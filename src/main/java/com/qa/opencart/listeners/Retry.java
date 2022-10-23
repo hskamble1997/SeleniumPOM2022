@@ -21,5 +21,7 @@ public class Retry implements IRetryAnalyzer {
 			iTestResult.setStatus(ITestResult.SUCCESS); // If test passes, TestNG marks it as passed
 		}
 		return false;
+		
+		
 	}
 }

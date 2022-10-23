@@ -1,6 +1,5 @@
 package com.qa.opencart.pages;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,22 +10,31 @@ import org.openqa.selenium.WebElement;
 
 import com.qa.opencart.constants.AppConstants;
 import com.qa.opencart.utils.ElementUtil;
+import com.qa.opencart.utils.JavaScriptUtil;
 
 public class ProductInfoPage {
 
 	private WebDriver driver;
 	private ElementUtil eleUtil;
+	private JavaScriptUtil jsUtil;
 	
 	private Map<String, String> productInfoMap;
 	
 	private By productImages = By.cssSelector("ul.thumbnails img");
 	private By productMetaData = By.xpath("(//div[@id='content']//ul[@class='list-unstyled'])[position()=1]/li");
 	private By productPriceData = By.xpath("(//div[@id='content']//ul[@class='list-unstyled'])[position()=2]/li");
-
+	private By ReviewsTab = By.linkText("Reviews (0)");
+	private By yourName = By.id("input-name");
+	private By reviewField = By.id("input-review");
+	private By ratingRadioBtn = By.xpath("//input[@type='radio' and @value='5']");
+	private By contiBtn = By.id("button-review");
+	private By successReviewMsg = By.xpath("//div[@class= 'alert alert-success alert-dismissible']");
+	
 	public ProductInfoPage(WebDriver driver) {
 
 		this.driver = driver;
 		eleUtil = new ElementUtil(driver); 
+		jsUtil = new JavaScriptUtil(driver);
 	}
 	
 	
@@ -67,5 +75,14 @@ public class ProductInfoPage {
 		return productInfoMap;
 	}
 	
+	public String sendReview(String name, String reviewText) {
+		jsUtil.scrollPageDown();
+		eleUtil.doClick(ReviewsTab);
+		eleUtil.doSendKeys(yourName, name);
+		eleUtil.doSendKeys(reviewField, reviewText);
+		eleUtil.doClick(ratingRadioBtn);
+		eleUtil.doClick(contiBtn);
+		return eleUtil.getElementTextWithVisibleElement(successReviewMsg, 5);
+	}
 
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -15,12 +16,17 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+import com.qa.opencart.errors.AppError;
+import com.qa.opencart.exception.FrameworkException;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverFactory {
 
 	public WebDriver driver;
 	public Properties prop;
+
+	private static final Logger LOG = Logger.getLogger(DriverFactory.class);
 
 	public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<WebDriver>();
 
@@ -36,6 +42,7 @@ public class DriverFactory {
 	public WebDriver initDriver(Properties prop) {
 		String browserName = prop.getProperty("browser").toLowerCase();
 		System.out.println("browser name is : " + browserName);
+		LOG.info("browser name is : " + browserName);
 
 		highlight = prop.getProperty("highlight").trim();
 		optionsManager = new OptionsManager(prop);
@@ -51,12 +58,14 @@ public class DriverFactory {
 		} else if (browserName.equals("edge")) {
 			WebDriverManager.edgedriver().setup();
 			// driver = new EdgeDriver();
-			tlDriver.set(new EdgeDriver());
+			tlDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
 		} else if (browserName.equals("safari")) {
 			// driver = new SafariDriver();
 			tlDriver.set(new SafariDriver());
 		} else {
 			System.out.println("Please pass the right browser name: " + browserName);
+			LOG.error("Please pass the right browser name : " + browserName);
+			throw new FrameworkException(AppError.BROWSER_NOT_FOUND);
 		}
 
 		getDriver().manage().deleteAllCookies();
@@ -86,7 +95,7 @@ public class DriverFactory {
 		//String envName = System.getenv("env");// stage/uat/qa/dev
 		String envName = System.getProperty("env");
 		System.out.println("-----> Running test cases on environment: ----->" + envName);
-
+		LOG.info("-----> Running test cases on environment: ----->"+ envName) ;
 		if (envName == null) {
 			System.out.println("No env is given..hence running it on QA env.....");
 			try {
@@ -117,7 +126,8 @@ public class DriverFactory {
 
 				default:
 					System.out.println("please pass the right env name...." + envName);
-					break;
+					throw new FrameworkException(AppError.ENV_NOT_FOUND);
+					//break;
 				}
 
 			} catch (FileNotFoundException e) {
@@ -156,4 +166,6 @@ public class DriverFactory {
 		
 	}
 	
+
+
 }
