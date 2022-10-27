@@ -10,9 +10,20 @@ public class AppConstants {
 	public static final int DEFAULT_LARGE_TIME_OUT = 10;
 	
 
-	public static final String LOGIN_PAGE_TITLE = "Account Login11";
+	public static final String LOGIN_PAGE_TITLE = "Account Login";
 	public static final String ACC_PAGE_TITLE = "My Account";
 
+	public static final String ORANGEHRM_LOGIN_PAGE_TITLE = "OrangeHRM";
+	public static final String ORANGEHRM_LOGIN_PAGE_URL_PARAM = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
+	
+	public static final List<String> ORANGEHRM_PAGE_SOCIALMEDIA_URLS = Arrays.asList("https://www.linkedin.com/company/orangehrm",
+			"https://www.facebook.com/OrangeHRM/",
+			"https://twitter.com/orangehrm?lang=en",
+			"https://www.youtube.com/c/OrangeHRMInc",
+			"https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+	
+	
+	
 	public static final String LOGIN_PAGE_URL_PARAM = "route=account/login";
 	public static final String ACC_PAGE_URL_PARAM = "route=account/account";
 
