@@ -8,6 +8,14 @@ import org.testng.annotations.Test;
 import com.qa.opencart.base.BaseTest;
 import com.qa.opencart.constants.AppConstants;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
+
+@Epic("Epic - 301: Open cart application Add address page design")
+@Story("US - 302: Create Add address page features")
 public class AddAddressTest extends BaseTest {
 	
 	@BeforeClass
@@ -22,7 +30,9 @@ public class AddAddressTest extends BaseTest {
 		};
 	}
 	
-	@Test(dataProvider = "getData")
+	@Description("add address page Test -- Dev Name: @hsk")
+	@Severity(SeverityLevel.CRITICAL)
+	@Test(dataProvider = "getData", priority = 1)
 	public void changeAddressTest(String fname, String lname, String addr1,String city,String zip,String country,String state) {
 		addressBookPage = accPage.clickAddressBook();
 		addAddressPage = addressBookPage.clickNewAddressBtn();

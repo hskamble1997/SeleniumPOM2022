@@ -1,9 +1,12 @@
 package com.qa.opencart.pages;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.qa.opencart.utils.ElementUtil;
+
+import io.qameta.allure.Step;
 
 public class AddAddressPage {
 
@@ -23,12 +26,14 @@ public class AddAddressPage {
 	private By contiBtn = By.xpath("//input[@type= 'submit' and @value ='Continue']");
 	private By successMsg = By.cssSelector("div.alert-success");
 	
+	private static final Logger LOG = Logger.getLogger(AddAddressPage.class);
+	
 	public AddAddressPage(WebDriver driver) {
 		this.driver = driver;
 		eleUtil = new ElementUtil(driver);
 	}
 	
-	
+	@Step("add address on add address page firstname : {0} and lastname : {1} and address : {2} and City : {3} and postalCode : {4} and Nation : {5} and State : {6}......")
 	public String addAddress(String fname, String lname, String addr1, String citi,String postalCode,String nation,String state) {
 		eleUtil.doSendKeysWithVisibleElement(firstName, 5, fname);
 		eleUtil.doSendKeys(lastName, lname);
