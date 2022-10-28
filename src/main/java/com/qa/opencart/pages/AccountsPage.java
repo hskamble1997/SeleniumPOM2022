@@ -23,6 +23,9 @@ public class AccountsPage {
 	private By searchIcon = By.cssSelector("div#search button");
 	private By accSecHeaders = By.cssSelector("div#content h2");
 	private By acc = By.cssSelector("div#content h1");
+	private By addressBook = By.linkText("Address Book");
+	
+	
 
 	private static final Logger LOG = Logger.getLogger(AccountsPage.class);
 
@@ -87,6 +90,12 @@ public class AccountsPage {
 			actSecTextList.add(text);
 		}
 		return actSecTextList;
+	}
+	
+	
+	public AddressBookPage clickAddressBook() {
+		eleUtil.doClickWithVisibleElement(addressBook, 5);
+		return new AddressBookPage(driver);
 	}
 
 }

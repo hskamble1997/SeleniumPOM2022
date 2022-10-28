@@ -22,6 +22,12 @@
 		</classes>
 	</test>
 
+	<test name="Add address Test">
+
+		<classes>
+			<class name="com.qa.opencart.tests.AddAddressTest" />
+		</classes>
+	</test>
 	<!-- <test name="Accounts Page Test">
 		<classes>
 			<class name="com.qa.opencart.tests.AccountsPageTest" />

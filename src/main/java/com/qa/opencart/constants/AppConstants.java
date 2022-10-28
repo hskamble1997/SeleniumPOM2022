@@ -41,6 +41,7 @@ public class AppConstants {
 	
 	public static final String REVIEW_SUCCESS_MSG = "Thank you for your review. It has been submitted to the webmaster for approval.";
 	
+	public static final String ADDRESS_UPDATE_SUCCESS_MSG = "Your address has been successfully added";
 	
 	//**************************sheet names ******************//
 	public static final String REGISTER_SHEET_NAME = "register";

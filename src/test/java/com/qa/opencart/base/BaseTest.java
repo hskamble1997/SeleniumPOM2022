@@ -8,6 +8,8 @@ import org.testng.annotations.BeforeTest;
 
 import com.qa.opencart.factory.DriverFactory;
 import com.qa.opencart.pages.AccountsPage;
+import com.qa.opencart.pages.AddAddressPage;
+import com.qa.opencart.pages.AddressBookPage;
 import com.qa.opencart.pages.LoginPage;
 import com.qa.opencart.pages.ProductInfoPage;
 import com.qa.opencart.pages.RegisterPage;
@@ -25,6 +27,8 @@ public class BaseTest {
 	public SearchResultsPage searchResultsPage;
 	public ProductInfoPage productInfoPage;
 	public RegisterPage registerPage;
+	public AddressBookPage addressBookPage;
+	public AddAddressPage addAddressPage;
 	
 	@BeforeTest
 	public void setup() {
