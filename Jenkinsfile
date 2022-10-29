@@ -93,7 +93,7 @@ pipeline
                                   keepAll: false, 
                                   reportDir: 'build', 
                                   reportFiles: 'TestExecutionReport.html', 
-                                  reportName: 'HTML Extent Report', 
+                                  reportName: 'HTML sanity Extent Report', 
                                   reportTitles: ''])
             }
         }
