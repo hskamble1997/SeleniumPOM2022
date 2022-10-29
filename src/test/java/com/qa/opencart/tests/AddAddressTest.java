@@ -30,7 +30,7 @@ public class AddAddressTest extends BaseTest {
 		};
 	}
 	
-	@Description("add address page Test -- Dev Name: @hsk")
+	@Description("add address page Test -- Dev Name: @hskam")
 	@Severity(SeverityLevel.CRITICAL)
 	@Test(dataProvider = "getData", priority = 1)
 	public void changeAddressTest(String fname, String lname, String addr1,String city,String zip,String country,String state) {
