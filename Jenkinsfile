@@ -3,7 +3,7 @@ pipeline
     agent any
     
     tools{
-    	maven 'M3'
+    	maven 'maven'
         }
 
     stages 
@@ -26,6 +26,7 @@ pipeline
         }
         
         
+        
         stage("Deploy to QA"){
             steps{
                 echo("deploy to qa")
@@ -36,14 +37,14 @@ pipeline
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     git 'https://github.com/hskamble1997/SeleniumPOM2022.git'
-                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src\test\resources\testrunners\testng_regression.xml"
+                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml"
                     
                 }
             }
         }
                 
      
-        stage('Publish Regression Allure Reports') {
+        stage('Publish Allure Reports') {
            steps {
                 script {
                     allure([
@@ -57,12 +58,13 @@ pipeline
             }
         }
         
-        stage('Publish regression Extent Report'){
+        
+        stage('Publish Extent Report'){
             steps{
                      publishHTML([allowMissing: false,
                                   alwaysLinkToLastBuild: false, 
-                                  keepAll: false, 
-                                  reportDir: 'build', 
+                                  keepAll: true, 
+                                  reportDir: 'reports', 
                                   reportFiles: 'TestExecutionReport.html', 
                                   reportName: 'HTML Extent Report', 
                                   reportTitles: ''])
@@ -79,29 +81,24 @@ pipeline
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     git 'https://github.com/hskamble1997/SeleniumPOM2022.git'
-                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src\test\resources\testrunners\testng_sanity.xml"
+                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml"
                     
                 }
             }
         }
         
-        
         stage('Publish sanity Extent Report'){
             steps{
                      publishHTML([allowMissing: false,
                                   alwaysLinkToLastBuild: false, 
-                                  keepAll: false, 
-                                  reportDir: 'build', 
+                                  keepAll: true, 
+                                  reportDir: 'reports', 
                                   reportFiles: 'TestExecutionReport.html', 
-                                  reportName: 'HTML sanity Extent Report', 
+                                  reportName: 'HTML Sanity Extent Report', 
                                   reportTitles: ''])
             }
         }
         
-        stage("Deploy to PROD"){
-            steps{
-                echo("deploy to PROD")
-            }
-        }
+        
     }
 }
