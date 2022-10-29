@@ -1,66 +1,107 @@
-pipeline{
-    
+pipeline 
+{
     agent any
     
-    stages{
-        
-        stage("Build"){
-            steps{
-                echo("Build project")
+    tools{
+    	maven 'maven'
+        }
+
+    stages 
+    {
+        stage('Build') 
+        {
+            steps
+            {
+                 git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
-            
+            post 
+            {
+                success
+                {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts 'target/*.jar'
+                }
+            }
         }
         
-        stage("Deploy to Dev"){
-            steps{
-                echo("Deploy to dev env")    
-            }
-            
-        }    
-        
-        stage("Run UTs"){
-            steps{
-                echo("Run unit test cases")
-            }
-            
-        }
         
         stage("Deploy to QA"){
             steps{
-                echo("Deploy to QA env")
+                echo("deploy to qa")
             }
-            
-        } 
+        }
+                
+        stage('Regression Automation Test') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    git 'https://github.com/hskamble1997/SeleniumPOM2022.git'
+                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src\test\resources\testrunners\testng_regression.xml"
+                    
+                }
+            }
+        }
+                
+     
+        stage('Publish Regression Allure Reports') {
+           steps {
+                script {
+                    allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results: [[path: '/allure-results']]
+                    ])
+                }
+            }
+        }
         
-        stage("Run Regression Automation test"){
+        stage('Publish regression Extent Report'){
             steps{
-                echo("run regression automation test cases")
+                     publishHTML([allowMissing: false,
+                                  alwaysLinkToLastBuild: false, 
+                                  keepAll: false, 
+                                  reportDir: 'build', 
+                                  reportFiles: 'TestExecutionReport.html', 
+                                  reportName: 'HTML Extent Report', 
+                                  reportTitles: ''])
             }
-            
-        } 
+        }
         
         stage("Deploy to Stage"){
             steps{
-                echo("Deploy to stage env")
+                echo("deploy to Stage")
             }
-            
         }
         
-        stage("Run Sanity Automation test"){
+        stage('Sanity Automation Test') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    git 'https://github.com/hskamble1997/SeleniumPOM2022.git'
+                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src\test\resources\testrunners\testng_sanity.xml"
+                    
+                }
+            }
+        }
+        
+        
+        stage('Publish sanity Extent Report'){
             steps{
-                echo("run sanity automation test cases")
+                     publishHTML([allowMissing: false,
+                                  alwaysLinkToLastBuild: false, 
+                                  keepAll: false, 
+                                  reportDir: 'build', 
+                                  reportFiles: 'TestExecutionReport.html', 
+                                  reportName: 'HTML Extent Report', 
+                                  reportTitles: ''])
             }
-            
         }
         
-        stage("Deploy to prod"){
+        stage("Deploy to PROD"){
             steps{
-                echo("Deploy to prod env")
+                echo("deploy to PROD")
             }
-            
         }
-        
     }
-    
-    
 }
